@@ -1,1 +1,0 @@
-#Gerencia os clients conectados

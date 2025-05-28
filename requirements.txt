@@ -1,7 +1,6 @@
 fastapi
 uvicorn
-SQLAlchemy
 pydantic
 websockets
-python-dotenv
 asyncio
+asyncpg
