@@ -7,7 +7,7 @@ import os
 
 async def authenticate(ws,user_id):
     try:
-      message = json.dumps({"type": "auth", "data": user_id}) # TODO: get from var
+      message = json.dumps({"type": "auth", "data": user_id})
       await ws.send(message)
     except websockets.exceptions.ConnectionClosed:
         print("Conexão com o servidor encerrada.")
@@ -23,9 +23,8 @@ async def receive_messages(ws):
                 elif data["type"] == "error":
                     print(f"Erro: {data['message']}")
                 elif data["type"] == "time":
-                    print(f"Horário atual: {message}")
+                    print(f"Horário atual: {data['data']}")
             except json.JSONDecodeError:
-                #  TODO: transform in a switch with a type time to handle this print. Use jsondecodeerror only for error handler
                 print(f"Ocorreu um erro de json decode")
     except websockets.exceptions.ConnectionClosed:
         print("Conexão com o servidor encerrada.")
@@ -47,21 +46,23 @@ async def send_input_from_usr(ws):
 async def main():
     user_id = os.environ["USER"]
     connection = os.environ["WS"]
+    skip_user_input = os.environ["SKIP_USER_INPUT"]
 
     if user_id == "":
         user_id = "default"
     if connection == "":
         connection = "ws://localhost:2222"
-    # TODO: you need to receive host in a variable instead of a hardcoded value, so docker container can set it
     async with websockets.connect(connection) as websocket:
         print("Conectado ao servidor.")
         await authenticate(websocket, user_id)
 
-        await asyncio.gather(
-            receive_messages(websocket),
-            send_input_from_usr(websocket)
-        )
+        tasks = []
+        if skip_user_input != "true":
+            tasks.append(send_input_from_usr(websocket))
 
+        tasks.append(receive_messages(websocket))
+
+        await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
     asyncio.run(main())

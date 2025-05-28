@@ -1,0 +1,59 @@
+
+services:
+  postgresd:
+    image: postgres:17.5
+    ports:
+      - "8089:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=websocketdb
+
+  server:
+    build:
+      context: .
+    command: python server.py
+    ports:
+      - "8080:8080"
+    environment:
+      - WS_HOST=0.0.0.0
+      - WS_PORT=8080
+      - DB_USER=postgres
+      - DB_PASSWORD=12345
+      - DB_DATABASE=websocketdb
+      - DB_HOST=postgresd:5432
+    depends_on:
+      - postgresd
+
+  client_1:
+    build:
+      context: .
+    command: python client.py
+    environment:
+      - USER=a8609c5c-24c8-4a05-90a8-547dcc422362
+      - WS=ws://server:8080
+      - SKIP_USER_INPUT=true
+    depends_on:
+      - server
+
+  client_2:
+    build:
+      context: .
+    command: python client.py
+    environment:
+      - USER=845a8dbc-f25f-4fcf-affc-48faa525dbb1
+      - WS=ws://server:8080
+      - SKIP_USER_INPUT=true
+    depends_on:
+      - server
+
+  client_3:
+    build:
+      context: .
+    command: python client.py
+    environment:
+      - USER=cbcffa26-3ff3-406c-86c6-abefb0a8294e
+      - WS=ws://server:8080
+      - SKIP_USER_INPUT=true
+    depends_on:
+      - server
