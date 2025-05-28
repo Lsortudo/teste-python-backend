@@ -24,6 +24,7 @@ services:
       - DB_HOST=postgresd:5432
     depends_on:
       - postgresd
+    restart: unless-stopped
 
   client_1:
     build:
@@ -35,6 +36,7 @@ services:
       - SKIP_USER_INPUT=true
     depends_on:
       - server
+    restart: unless-stopped
 
   client_2:
     build:
@@ -46,6 +48,7 @@ services:
       - SKIP_USER_INPUT=true
     depends_on:
       - server
+    restart: unless-stopped
 
   client_3:
     build:
@@ -57,3 +60,4 @@ services:
       - SKIP_USER_INPUT=true
     depends_on:
       - server
+    restart: unless-stopped

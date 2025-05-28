@@ -12,9 +12,9 @@ class DB:
         self.pool = None
 
     async def connect_db(self):
-        print(f"postgres://{self.user}:{self.password}@{self.host}/{self.name}?sslmode=disable")
+        print(f"postgresql://#####:#####@{self.host}/{self.name}?sslmode=disable")
         self.pool = await asyncpg.create_pool(
-            dsn=f"postgres://{self.user}:{self.password}@{self.host}/{self.name}?sslmode=disable",
+            dsn=f"postgresql://{self.user}:{self.password}@{self.host}/{self.name}?sslmode=disable",
         )
         print("connected")
 
@@ -39,6 +39,7 @@ class DB:
                              SET connected = FALSE
                              WHERE id = $1
                              """, user_id)
+            print("user id false", user_id)
 
     async def close_db(self):
         await self.pool.close()
