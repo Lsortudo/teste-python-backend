@@ -28,11 +28,47 @@ Aúdio explicativo no email que enviou o teste técnico;
 
 ## Minha solucao
 
-### Para utilizacao em Local
+## Para utilizacao em Local
+
+**Antes de executar Server/Client entre na pasta app**
+```bash
+cd .\app\
+```
+**Instale as dependencias**
+```bash
+pip install -r requirements.txt
+```
+#### Exemplo da execucao do Server
+```bash
+env:WS_HOST="localhost"  
+env:WS_PORT="8080"  
+env:DB_USER="postgres"  
+env:DB_PASSWORD=12345  
+env:DB_DATABASE="websocketdb"  
+env:DB_HOST="localhost:8089"  
+python server.py  
+```
+#### Exemplo da execucao do Client
+```bash
+env:USER="42"  
+env:WS = 'ws://localhost:8080'  
+env:SKIP_USER_INPUT = "true"  
+python client.py  
+```
+#### Variaveis de ambiente
+**WS_HOST** - Endereço do host onde o servidor WebSocket irá rodar (normalmente localhost em desenvolvimento)  
+**WS_PORT** - Porta na qual o servidor WebSocket irá escutar as conexões  
+**DB_USER** -   Nome de usuário para conexão com o banco de dados PostgreSQL  
+**DB_PASSWORD** - Senha para conexão com o banco de dados PostgreSQL  
+**DB_DATABASE** - Nome do banco de dados que será utilizado  
+**DB_HOST** - Endereço e porta do servidor de banco de dados (formato host:port)  
+**USER** - Identificador para simular o ID de um usuário. Numa aplicação em produção, este valor deveria vir de um processo de autenticação, mas para este exemplo foi colocado em uma variável de ambiente para cada cliente"  
+**WS** - URL completa do WebSocket server (formato ws://host:port)  
+**SKIP_USER_INPUT** - Booleano que retorna true ou false, true é pra rodar a aplicacao fazendo skip do userInput, que iria apenas receber o broadcast da data/hora atual. Já false habilita os dois, o broadcast de data/hora, e também aceita numeros pra prosseguir com a equacao de Fibonacci.
 ### Para utilizacao com o Docker
 
-
-### Proximas melhorias
-Testes unitarios
-Refatoracao
-Front basico para a sequencia de Fibo
+## Proximas melhorias
+#### Melhoria no Readme
+#### Refatoracao  
+#### Testes  
+#### Front basico para a sequencia de Fibo  
